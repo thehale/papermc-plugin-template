@@ -20,7 +20,7 @@ public class PapermcPluginTemplatePlugin extends JavaPlugin {
     public static PapermcPluginTemplatePlugin instance;
     public static Logger log;
     public final static String NAME = "PapermcPluginTemplate";
-    public final static int BSTATS_PLUGIN_ID = 20765;  // TODO: Replace with your own bStats plugin ID
+    public final static int BSTATS_PLUGIN_ID = 20765;  // Optional: Replace with your own bStats plugin ID
 
     /**
      * Default constructor.
@@ -66,6 +66,6 @@ public class PapermcPluginTemplatePlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        log.info("Thanks for using papermc_plugin_template!");
+        log.info("Thanks for using " + NAME + "!");
     }
 }

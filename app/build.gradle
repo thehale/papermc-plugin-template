@@ -203,3 +203,114 @@ def getPluginYml() {
   InputStream pluginYml = new File(PLUGIN_YML_PATH).newInputStream()
   return new org.yaml.snakeyaml.Yaml().load(pluginYml)
 }
+
+task renamePlugin {
+    doLast {
+        logger.lifecycle("Renaming plugin to " + newAuthor + "/" + newPluginName)
+        def pluginRenamer = new PluginRenamer(
+            pluginOwner, pluginName,
+            newAuthor, newPluginName
+        )
+
+        pluginRenamer.renameFolder(new File('app/src'))
+        pluginRenamer.renameFile(new File('gradle.properties'))
+    }
+}
+
+
+class PluginRenamer {
+
+    String oldAuthor
+    String oldAuthorSnakeCase
+    String oldAuthorCapitalized
+
+    String oldPluginName
+    String oldPluginNameSnakeCase
+    String oldPluginNameCapitalized
+
+    String newAuthor
+    String newAuthorSnakeCase
+    String newAuthorCapitalized
+
+    String newPluginName
+    String newPluginNameSnakeCase
+    String newPluginNameCapitalized
+
+    PluginRenamer(String oldAuthor, String oldPluginName, String newAuthor, String newPluginName) {
+        this.oldAuthor = oldAuthor
+        this.oldAuthorSnakeCase = asSnakeCase(oldAuthor)
+        this.oldAuthorCapitalized = asCapitalized(oldAuthorSnakeCase)
+
+        this.oldPluginName = oldPluginName
+        this.oldPluginNameSnakeCase = asSnakeCase(oldPluginName)
+        this.oldPluginNameCapitalized = asCapitalized(oldPluginNameSnakeCase)
+        
+        this.newAuthor = newAuthor
+        this.newAuthorSnakeCase = asSnakeCase(newAuthor)
+        this.newAuthorCapitalized = asCapitalized(newAuthorSnakeCase)
+        
+        this.newPluginName = newPluginName
+        this.newPluginNameSnakeCase = asSnakeCase(newPluginName)
+        this.newPluginNameCapitalized = asCapitalized(newPluginNameSnakeCase)
+    }
+    void renameFolder(File folder) {
+        folder.eachFile {
+            if (it.isFile()) {
+                renameFile(it)
+            }
+        }
+        folder.eachDir {
+            if (it.isDirectory()) {
+                renameFolder(it)
+            }
+        }
+        println("Renaming folder " + folder)
+        def newFolderName = renameText(folder.getName())
+        if (newFolderName != folder.getName()) {
+            folder.renameTo(new File(folder.parent, newFolderName))
+        }
+    }
+    void renameFile(File file) {
+        println("Renaming file " + file)
+        String text = file.text
+        text = renameText(text)
+        file.write(text)
+
+        def newFileName = renameText(file.getName())
+        if (newFileName != file.getName()) {
+            file.renameTo(new File(file.parent, newFileName))
+        }
+    }
+    String renameText(String text) {
+        def lines = text.split("\n")
+        lines = lines.collect {
+            renameLine(it)
+        }
+        text = lines.join("\n")
+        return text
+    }
+    String renameLine(String line) {
+        if (line.contains("[ATTRIBUTION]")) {
+            return line  // Don't rename attribution lines.
+        }
+        line = line.replaceAll(oldAuthor, newAuthor)
+        line = line.replaceAll(oldAuthorSnakeCase, newAuthorSnakeCase)
+        line = line.replaceAll(oldAuthorCapitalized, newAuthorCapitalized)
+        line = line.replaceAll(oldPluginName, newPluginName)
+        line = line.replaceAll(oldPluginNameSnakeCase, newPluginNameSnakeCase)
+        line = line.replaceAll(oldPluginNameCapitalized, newPluginNameCapitalized)
+        return line
+    }
+    def asSnakeCase(String s) {
+        return s
+            .toLowerCase()
+            .replaceAll(/[\s-]+/, "_")
+            .replaceAll(/[^a-z0-9_]/, "")
+    }
+    def asCapitalized(String s) {
+        return s
+            .split("_")
+            .collect { it.capitalize() }
+            .join("")
+    }
+}

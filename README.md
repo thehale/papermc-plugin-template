@@ -21,9 +21,7 @@ A template for developing custom plugins for PaperMC Minecraft Servers
    - Or you can clone a copy: `git clone https://github.com/thehale/papermc-plugin-template`
 2. Choose a name for your plugin (e.g. `my-plugin`).
    - Rename the repository.
-   - Open `gradle.properties` and change the `pluginOwner` variable to your
-     GitHub username, then change the `pluginName` to your plugin name (use only
-     letters and underscores).
+   - Run `./gradlew renamePlugin -PnewAuthor=YOUR_GITHUB_USERNAME -PnewPluginName=YOUR_PLUGIN_NAME`
 
 ## Contributing
 

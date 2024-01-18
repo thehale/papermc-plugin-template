@@ -1,5 +1,6 @@
 # Local server software
 **/.server
+app/bin
 
 ###############################################
 ## Gradle files to ignore
