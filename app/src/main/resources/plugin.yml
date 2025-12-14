@@ -9,4 +9,23 @@ name: PapermcPluginTemplate
 main: dev.thehale.papermc_plugin_template.PapermcPluginTemplatePlugin
 version: 0.1.0
 api-version: 1.19
+
+# Commands
+commands:
+  example:
+    description: Example command for the plugin
+    usage: /<command> [reload|info|version]
+    permission: papermcplugintemplate.example
+    permission-message: You don't have permission to use this command!
+
+# Permissions
+permissions:
+  papermcplugintemplate.*:
+    description: All permissions for PapermcPluginTemplate
+    default: op
+    children:
+      papermcplugintemplate.example: true
+  papermcplugintemplate.example:
+    description: Allows use of the example command
+    default: op
 ... # Denotes the end of this YAML document. https://yaml.org/spec/1.2/spec.html#id2760395
