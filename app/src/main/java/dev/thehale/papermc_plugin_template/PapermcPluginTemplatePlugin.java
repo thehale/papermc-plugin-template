@@ -7,6 +7,7 @@
 package dev.thehale.papermc_plugin_template;
 
 import java.io.File;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -14,6 +15,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.java.JavaPluginLoader;
 
 import dev.thehale.papermc_plugin_template.bstats.Metrics;
+import dev.thehale.papermc_plugin_template.commands.PapermcPluginTemplateCommand;
 
 public class PapermcPluginTemplatePlugin extends JavaPlugin {
 
@@ -61,6 +63,7 @@ public class PapermcPluginTemplatePlugin extends JavaPlugin {
 
     private void setup() {
         getServer().getPluginManager().registerEvents(new PapermcPluginTemplateListener(), this);
+        Objects.requireNonNull(getCommand("hello")).setExecutor(new PapermcPluginTemplateCommand());
         new Metrics(this, BSTATS_PLUGIN_ID);  // Enable bStats metrics
     }
 

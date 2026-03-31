@@ -9,4 +9,8 @@ name: PapermcPluginTemplate
 main: dev.thehale.papermc_plugin_template.PapermcPluginTemplatePlugin
 version: 0.1.0
 api-version: 1.19
+commands:
+  hello:
+    description: Greet the player.
+    usage: /hello
 ... # Denotes the end of this YAML document. https://yaml.org/spec/1.2/spec.html#id2760395
