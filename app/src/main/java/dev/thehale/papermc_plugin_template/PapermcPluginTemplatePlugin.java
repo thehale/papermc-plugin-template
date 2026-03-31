@@ -17,10 +17,14 @@ import dev.thehale.papermc_plugin_template.bstats.Metrics;
 
 public class PapermcPluginTemplatePlugin extends JavaPlugin {
 
+    /** The singleton instance of this plugin. */
     public static PapermcPluginTemplatePlugin instance;
+    /** The logger for this plugin. */
     public static Logger log;
-    public final static String NAME = "PapermcPluginTemplate";
-    public final static int BSTATS_PLUGIN_ID = 20765;  // Optional: Replace with your own bStats plugin ID
+    /** The display name of this plugin. */
+    public static final String NAME = "PapermcPluginTemplate";
+    /** Optional: Replace with your own bStats plugin ID. */
+    public static final int BSTATS_PLUGIN_ID = 20765;
 
     /**
      * Default constructor.
